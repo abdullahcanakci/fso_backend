@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA,GACE,WAAY,CACZ,iBACF,CAEA,QACE,WACF,CAEA,SACE,sBACF,CAEA,MACE,oBACF","file":"main.2677457b.chunk.css","sourcesContent":["h2 {\n  color: green;\n  font-style: italic;\n}\n\n.person {\n  padding: 8px;\n}\n\n.success {\n  background-color: green;\n}\n\n.fail {\n  background-color: red;\n}"]}
