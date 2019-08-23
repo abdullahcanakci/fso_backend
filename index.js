@@ -77,14 +77,10 @@ app.post('/api/persons', (req, res, next) => {
   person
     .save()
     .then(savedPerson => {
-      res.json(savedPerson.toJSON()).end()
-        .catch(error => {
-          console.log('error while posting new entry to the database', error)
-        })
+      res.json(savedPerson.toJSON())
     })
     .catch(error => next(error))
 
-  res.status(201).json(person)
 })
 
 app.put('/api/persons/:id', (req, res, next) => {
