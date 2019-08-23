@@ -80,7 +80,7 @@ app.post('/api/persons', (req, res) => {
           console.log('error while posting new entry to the database', error)
         })
     })
-    catch(error => next(error))
+    .catch(error => next(error))
 
   res.status(201).json(person)
 })
