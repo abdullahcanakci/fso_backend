@@ -1,13 +1,21 @@
 require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
-const morgan = require('morgan')
 const People = require('./models/people')
+
+const logger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
 
 const app = express()
 
 app.use(express.static('build'))
 app.use(bodyParser.json())
+app.use(logger)
 
 app.get('/info', (req, res) => {
   People
@@ -33,7 +41,7 @@ app.get('/api/persons', (req, res) => {
     })
 })
 
-app.get('/api/persons/:id', (req, res) => {
+app.get('/api/persons/:id', (req, res, next) => {
   People
     .findById(req.params.id)
     .then(person => {
@@ -43,25 +51,19 @@ app.get('/api/persons/:id', (req, res) => {
         res.status(404).end()
       }
     })
-    .catch(error => console.log(error))
+    .catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (req, res) => {
+app.delete('/api/persons/:id', (req, res, next) => {
   People
     .findByIdAndRemove(req.params.id)
     .then(result => {
       res.status(204).end()
     })
-    .catch(error => console.log(error))
+    .catch(error => next(error))
 })
 
-morgan.token('body', (req, res) => { return JSON.stringify(req.body) })
-
-const loggerFormat = ':method :url :status :res[content-length] - :response-time[3] :body'
-
-app.use(morgan(loggerFormat))
-
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
   const body = req.body
 
   if (!body.name && !body.number) {
